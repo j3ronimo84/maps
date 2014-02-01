@@ -1,26 +1,34 @@
 class j3r.Markers
-  constructor: (@map, @markers = {}) ->
+  constructor: (@map, @markersInfo, @infoWindows, @markersObjects = {}, @actualMarkers = {}) ->
 
   setMarkers: (newMarkers) ->
     # remove from current 
-    for markerId, marker of @markers
-      @removeMarker markerId if !newMarkers[markerId]
+    for markerId, markerShow of @actualMarkers
+      @removeMarker markerId if !newMarkers[markerId] and @actualMarkers
     # add new
-    for markerId, marker of newMarkers
-      @addMarker markerId, marker if !@markers[markerId]?
+    for markerId, markerShow of newMarkers
+      @addMarker markerId, @markersInfo[markerId] if !@actualMarkers[markerId]? or !@actualMarkers[markerId]
     return  
         
   addMarker: (markerId, markerInfo) ->
+    @markersObjects[markerId] = @getMarker markerId, markerInfo if !@markersObjects[markerId]?
+    @markersObjects[markerId].setMap @map
+    @actualMarkers[markerId] = yes
+    return
+
+  getMarker: (markerId, markerInfo) ->
     marker = new google.maps.Marker
       position: new google.maps.LatLng markerInfo['pos'][0], markerInfo['pos'][1]
       map: @map
       title: markerInfo['title']
-    @markers[markerId] = marker
-    return
+    google.maps.event.addListener marker, 'click', =>
+      @infoWindows.getInfoWindow(markerId).open @map,marker
+      return
+    marker  
 
   removeMarker: (markerId) ->
-    @markers[markerId].setMap null
-    delete @markers[markerId]
+    @markersObjects[markerId].setMap null
+    @actualMarkers[markerId] = no
     return
 
   addMarkerByPos: (pos) ->
@@ -30,8 +38,4 @@ class j3r.Markers
       map: @map
 
 j3r.Markers.create = (map) ->
-  markers = new j3r.Markers map
-  return markers
-    # @icons =
-    #   buildings: url + 'pics/marker_house_png'
-    #   shops: url + 'pics/marker_shop_png'
+  new j3r.Markers map, j3r.conf['markers'], j3r.InfoWindows.create()

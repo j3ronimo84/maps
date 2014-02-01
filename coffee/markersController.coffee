@@ -40,7 +40,7 @@ class j3r.MarkersController
     newMarkers = {}
     # TODO optimalizovat
     for markerId, markerInfo of @markersList
-      newMarkers[markerId] = markerInfo
+      newMarkers[markerId] = yes
       for mainCategoryId, categoryId  of @selected
         if markerInfo['cat'].indexOf(categoryId) is -1
           delete newMarkers[markerId]

@@ -62,7 +62,7 @@ j3r.MarkersController = (function() {
     _ref = this.markersList;
     for (markerId in _ref) {
       markerInfo = _ref[markerId];
-      newMarkers[markerId] = markerInfo;
+      newMarkers[markerId] = true;
       _ref1 = this.selected;
       for (mainCategoryId in _ref1) {
         categoryId = _ref1[mainCategoryId];
