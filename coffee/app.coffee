@@ -4,7 +4,7 @@ class j3r.App
   constructor: ->
     @map = j3r.Map.create()
     @markers = j3r.Markers.create @map.getMap()
-    @markersController = j3r.MarkersController.create @markers, j3r.conf.categories
+    @markersController = j3r.MarkersController.create @markers
     return
 
   start: ->
@@ -15,8 +15,8 @@ class j3r.App
     @markersController.init()
     return
 
-  select: (selection) ->
-    @markersController.setSelections [selection]
+  select: (mainCat, selectedCat) ->
+    @markersController.setSelections mainCat, selectedCat
     return  
  
 j3r.helpers = 

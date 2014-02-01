@@ -7,7 +7,7 @@ j3r.App = (function() {
   function App() {
     this.map = j3r.Map.create();
     this.markers = j3r.Markers.create(this.map.getMap());
-    this.markersController = j3r.MarkersController.create(this.markers, j3r.conf.categories);
+    this.markersController = j3r.MarkersController.create(this.markers);
     return;
   }
 
@@ -17,8 +17,8 @@ j3r.App = (function() {
     this.markersController.init();
   };
 
-  App.prototype.select = function(selection) {
-    this.markersController.setSelections([selection]);
+  App.prototype.select = function(mainCat, selectedCat) {
+    this.markersController.setSelections(mainCat, selectedCat);
   };
 
   return App;
