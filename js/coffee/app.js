@@ -8,17 +8,41 @@ j3r.App = (function() {
     this.map = j3r.Map.create();
     this.markers = j3r.Markers.create(this.map.getMap());
     this.markersController = j3r.MarkersController.create(this.markers);
+    this.search = j3r.Search.create();
+    this.markerInfo = $('#marker-info-placeholder');
     return;
   }
 
   App.prototype.start = function() {
+    var _this = this;
     this.map.init();
     this.markers.setMarkers(j3r.conf.markers);
     this.markersController.init();
+    $(document).ready(function() {
+      var searchInput;
+      searchInput = $('#search-input');
+      searchInput.keyup(function() {
+        _this.search.search(searchInput.val());
+      });
+    });
   };
 
   App.prototype.select = function(mainCat, selectedCat) {
     this.markersController.setSelections(mainCat, selectedCat);
+  };
+
+  App.prototype.showInfoWindow = function(markerId) {
+    var content;
+    content = '<span onclick="$(\'#marker-info-placeholder\').hide()" class="marker-info-close"></span>';
+    content += this.markersController.markers.infoWindows.generateInfoWindowContent(markerId);
+    this.markerInfo.empty();
+    this.markerInfo.append(content);
+    setTimeout(function() {
+      $("#marker-info-placeholder a.colorboxGallery").colorbox({
+        rel: "gal"
+      });
+    }, 1000);
+    this.markerInfo.show();
   };
 
   return App;
@@ -26,95 +50,88 @@ j3r.App = (function() {
 })();
 
 j3r.helpers = {
-  getCategoryPath: function(selection) {
-    var path, pos, start;
+  getCategoryInfoToString: function(selection, category, delimiter) {
+    var beginPos, cat, catPos, catPosStart, end, key, nextKey, nextPos, output, parrentCat, path, pos, start, startAt, subCat, _i, _len;
+    if (delimiter == null) {
+      delimiter = ' - ';
+    }
+    catPosStart = [];
+    beginPos = 0;
+    while (selection.indexOf(j3r.conf['settings']['catPrefix'], beginPos) !== -1) {
+      catPos = selection.indexOf(j3r.conf['settings']['catPrefix'], beginPos);
+      beginPos = catPos + j3r.conf['settings']['catPrefix'].length;
+      catPosStart.push(catPos);
+    }
+    for (key in catPosStart) {
+      startAt = catPosStart[key];
+      nextKey = parseInt(key) + 1;
+      end = catPosStart[nextKey] != null ? catPosStart[nextKey] : selection.length;
+      cat = selection.substring(startAt, end);
+      if (cat.indexOf(category === 0)) {
+        selection = cat;
+        break;
+      }
+    }
     path = [];
     start = 0;
-    pos = (function() {
-      var _results;
-      _results = [];
-      while (selection.indexOf('_', start) !== -1) {
-        path.push(selection.substring(0, pos));
-        _results.push(start = pos);
+    while (selection.indexOf(j3r.conf['settings']['subCatDelimiter'], start) !== -1) {
+      pos = selection.indexOf(j3r.conf['settings']['subCatDelimiter'], start);
+      start = pos + 1;
+      nextPos = selection.indexOf(j3r.conf['settings']['subCatDelimiter'], start) !== -1 ? selection.indexOf(j3r.conf['settings']['subCatDelimiter'], start) : selection.length;
+      path.push(selection.substring(0, nextPos));
+    }
+    output = '';
+    parrentCat = category;
+    for (_i = 0, _len = path.length; _i < _len; _i++) {
+      subCat = path[_i];
+      if (output.length !== 0) {
+        output += delimiter;
       }
-      return _results;
-    })();
-    return path;
+      output += j3r.conf['categories']['list'][parrentCat][subCat];
+      parrentCat = subCat;
+    }
+    return output;
   },
-  countOccurences: function(string, count) {
-    var line;
-    line = clone(string);
-    return line.length() - line.replace(count, "").length();
+  getTransformedText: function(text, useSpaces) {
+    var pos, toReplace, _i, _ref;
+    if (useSpaces == null) {
+      useSpaces = true;
+    }
+    text = text.toLowerCase();
+    if (!useSpaces) {
+      text = text.replace(/\s/g, "");
+    }
+    toReplace = {
+      'á': 'a',
+      'ä': 'a',
+      'č': 'c',
+      'ď': 'd',
+      'é': 'e',
+      'ě': 'e',
+      'í': 'i',
+      'ĺ': 'l',
+      'ľ': 'l',
+      'ň': 'n',
+      'ó': 'o',
+      'ô': 'o',
+      'ő': 'o',
+      'ö': 'o',
+      'ŕ': 'r',
+      'š': 's',
+      'ť': 't',
+      'ú': 'u',
+      'ů': 'u',
+      'ű': 'u',
+      'ü': 'u',
+      'ý': 'y',
+      'ř': 'r',
+      'ž': 'z'
+    };
+    for (pos = _i = 0, _ref = text.length; 0 <= _ref ? _i < _ref : _i > _ref; pos = 0 <= _ref ? ++_i : --_i) {
+      if (toReplace[text[pos]] == null) {
+        text[pos] = toReplace[text[pos]];
+      }
+    }
+    return text;
   }
 };
-
-j3r.Observer = (function() {
-  Observer.prototype.debugMode = false;
-
-  function Observer() {
-    this.subscribers = {};
-    if (window["anev"] != null) {
-      this.debugMode = window["anev"].debugMode;
-    }
-  }
-
-  Observer.prototype.on = function(type, fn, context) {
-    if (typeof fn !== "function") {
-      if (typeof context[fn] === "function") {
-        fn = context[fn];
-      } else {
-        throw new Error("None of variables " + fn + ", " + context[fn] + " are functions");
-      }
-    }
-    if (typeof this.subscribers[type] === "undefined") {
-      this.subscribers[type] = [];
-    }
-    return this.subscribers[type].push({
-      fn: fn,
-      context: context || this
-    });
-  };
-
-  Observer.prototype.fire = function(type) {
-    var args, key, method, _i, _len, _ref, _results;
-    args = [].slice.call(arguments, 1);
-    if (this.debugMode) {
-      console.log("fire " + type, args, this);
-    }
-    if (this.subscribers[type] != null) {
-      _ref = this.subscribers[type];
-      _results = [];
-      for (key = _i = 0, _len = _ref.length; _i < _len; key = ++_i) {
-        method = _ref[key];
-        _results.push((function(key, method) {
-          return method.fn.apply(method.context, args);
-        })(key, method));
-      }
-      return _results;
-    }
-  };
-
-  Observer.prototype.remove = function(type, fn, context) {
-    var key, method, _i, _len, _ref, _results;
-    _ref = this.subscribers[type];
-    _results = [];
-    for (key = _i = 0, _len = _ref.length; _i < _len; key = ++_i) {
-      method = _ref[key];
-      if (method.fn === fn && method.context === context) {
-        _results.push((function(key, method) {
-          return this.subscribers[type].splice(key, 1);
-        })(key, method));
-      }
-    }
-    return _results;
-  };
-
-  Observer.prototype.listen = function(object, type, fn) {
-    if (this.debugMode) {
-      return console.log("listening " + type, object);
-    }
-  };
-
-  return Observer;
-
-})();

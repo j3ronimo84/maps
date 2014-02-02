@@ -1,5 +1,5 @@
 class j3r.MarkersController
-  @wrapper = 'menu-wrapper'
+  @wrapper = 'selectors-wrapper'
   constructor: (@markersList, @markers, @categories, @selected) ->
 
   init: ->
@@ -10,7 +10,7 @@ class j3r.MarkersController
   setSelections: (mainCategory, selection) ->
     # empty selectors
     wrapper = $('#' + @getParentId selection)
-    wrapper.html '' if wrapper.length > 0
+    wrapper.children('.selectors-wrapper').empty() if wrapper.children('.selectors-wrapper').length > 0
     # render new selectors
     @renderSelector mainCategory, selection if @categories['list'][selection]? 
     # add/remove markers
@@ -19,21 +19,24 @@ class j3r.MarkersController
     return
 
   renderSelector: (mainCategoryId, categoryId) ->
-    parrentId = @getParentId categoryId
-    selector = $('<select id="' + categoryId + '" onChange="app.select($(\'#' + categoryId + ' option:selected\').attr(\'data-main-cat\'),$(\'#' + categoryId + ' option:selected\').attr(\'data-selected-cat\'))"><select>')
-    selector.append '<option disabled selected>' + @categories['titles'][categoryId] + '</option>'
+    selector = $('<select id="' + categoryId + '" class="chosen-select" 
+      onChange="app.select($(\'#' + categoryId + ' option:selected\').attr(\'data-main-cat\'),$(\'#' + categoryId + ' option:selected\').attr(\'data-selected-cat\'))" 
+      data-placeholder="' + @categories['titles'][categoryId] + '" style="width:200px;"><select>')
+    selector.append '<option></option>'
     for optionId, optionName of @categories['list'][categoryId]
       selector.append '<option data-main-cat="' + mainCategoryId + '" data-selected-cat="' + optionId + '">' + optionName + '</option>'
-    wrapper = $('#' + parrentId)
+    wrapper = $('#wrapper-' + categoryId)
     if wrapper.length is 0
-      wrapper = $('<div id="' + parrentId + '"></div>')
-      $('#selectors-wrapper').append wrapper
+      wrapper = $('<div class="selectors-wrapper" id="wrapper-' + categoryId + '"></div>')
+      $('#' + @getParentId categoryId).append wrapper
     wrapper.append selector
+    # initiate chosen
+    wrapper.children('.chosen-select').chosen()
     return
 
   getParentId: (categoryId) ->
     mainCatEnd = categoryId.lastIndexOf '_'
-    parrentId = if mainCatEnd isnt -1 then 'wrapper-' + categoryId.substr 0, mainCatEnd else j3r.MarkersController.wrapper
+    parrentId = if mainCatEnd isnt -1 then 'wrapper-' + categoryId.substr 0, mainCatEnd else 'selectors-wrapper'
     parrentId
 
   setMarkers: () ->

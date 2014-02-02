@@ -8,18 +8,43 @@ j3r.InfoWindows = (function() {
 
   InfoWindows.prototype.getInfoWindow = function(markerId) {
     if (this.markersInfoWindows[markerId] == null) {
-      this.markersInfoWindows[markerId] = this.generateInfoWindow(this.markerInfos[markerId]);
+      this.markersInfoWindows[markerId] = this.generateInfoWindow(markerId, this.markerInfos[markerId]);
     }
     return this.markersInfoWindows[markerId];
   };
 
-  InfoWindows.prototype.generateInfoWindow = function(markerInfo) {
-    var contentString, infowindow;
-    contentString = '<h3>' + markerInfo['title'] + '</h3>\
-			<p>' + markerInfo['info'] + '</p>';
+  InfoWindows.prototype.generateInfoWindow = function(markerId) {
+    var infowindow;
     return infowindow = new google.maps.InfoWindow({
-      content: contentString
+      content: this.generateInfoWindowContent(markerId)
     });
+  };
+
+  InfoWindows.prototype.generateInfoWindowContent = function(markerId) {
+    var contentString;
+    if ((this.markerInfos[markerId]['gal'] == null) + '\
+			</div>') {
+      return contentString = '<div class="info-window-wrapper">\
+			<h3>' + this.markerInfos[markerId]['title'] + '</h3>\
+			<span class="info-window-adress"><strong>umístění:</strong> \
+			' + j3r.helpers.getCategoryInfoToString(this.markerInfos[markerId]['cat'], 'cat-a') + '</span>\
+			<div info-window-text->' + this.markerInfos[markerId]['info'] + '</div>\
+			' + this.generateInfoWindowGallery(markerId, this.markerInfos[markerId]['gal']);
+    }
+  };
+
+  InfoWindows.prototype.generateInfoWindowGallery = function(folder, galleryInfo) {
+    var linkToFolder, output, picLink, pos;
+    output = '<div class="info-window-wrapper-gal ' + folder + '">';
+    linkToFolder = j3r.conf['settings']['pathToInfoWindowPics'] + folder + '/';
+    for (pos in galleryInfo) {
+      picLink = galleryInfo[pos];
+      output += '<a href="' + linkToFolder + picLink.replace('_sm', '') + '"\
+			 class="colorboxGallery pic-gal cboxElement" rel="gal">\
+		    <img class="link-outline" src="' + linkToFolder + picLink + '" alt="">\
+			</a>';
+    }
+    return output + '</div>';
   };
 
   return InfoWindows;

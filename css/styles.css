@@ -11,6 +11,44 @@
 	background: #ff0000;
 }
 
+#selectors-wrapper {
+	width: 100%;
+	height: 150px;
+}
+
+#wrapper-cat-a, #wrapper-cat-b {
+	margin-bottom: 10px;
+}
+
+#search-wrapper {
+	width: 100%;
+	height: 100%;
+}
+
+#marker-info-placeholder {
+	position: absolute;
+	z-index: 90;
+	display: none;
+	max-width: 296px;
+	background: #ffffff;
+	border: 2px solid green;
+}
+
+#search-results {
+	cursor: pointer;
+}
+
+.marker-info-close {
+	position: absolute;
+	z-index: 95;
+	width: 20px;
+	height: 20px;
+	text-align: right;
+	background: url('../pics/close-icon.png');
+	cursor: pointer;
+
+}
+
 #map-canvas {
   width: 800px;
   height: 500px;

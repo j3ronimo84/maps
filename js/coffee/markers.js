@@ -43,6 +43,11 @@ j3r.Markers = (function() {
     });
     google.maps.event.addListener(marker, 'click', function() {
       _this.infoWindows.getInfoWindow(markerId).open(_this.map, marker);
+      setTimeout(function() {
+        $(".info-window-wrapper-gal a.colorboxGallery").colorbox({
+          rel: "gal"
+        });
+      }, 1000);
     });
     return marker;
   };

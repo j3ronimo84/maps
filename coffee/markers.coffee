@@ -23,6 +23,12 @@ class j3r.Markers
       title: markerInfo['title']
     google.maps.event.addListener marker, 'click', =>
       @infoWindows.getInfoWindow(markerId).open @map,marker
+      # timeout because its not in callback 
+      setTimeout ->
+          $(".info-window-wrapper-gal a.colorboxGallery").colorbox rel:"gal"
+          return
+        ,
+          1000
       return
     marker  
 
