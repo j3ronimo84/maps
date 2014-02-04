@@ -44,10 +44,10 @@ j3r.Markers = (function() {
     google.maps.event.addListener(marker, 'click', function() {
       _this.infoWindows.getInfoWindow(markerId).open(_this.map, marker);
       setTimeout(function() {
-        $(".info-window-wrapper-gal a.colorboxGallery").colorbox({
+        $(j3r.conf['settings']['el_markerInfoPlaceholderColorbox']).colorbox({
           rel: "gal"
         });
-      }, 1000);
+      }, 500);
     });
     return marker;
   };

@@ -9,7 +9,7 @@ j3r.App = (function() {
     this.markers = j3r.Markers.create(this.map.getMap());
     this.markersController = j3r.MarkersController.create(this.markers);
     this.search = j3r.Search.create();
-    this.markerInfo = $('#marker-info-placeholder');
+    this.markerInfo = $(j3r.conf['settings']['el_markerInfoPlaceholder']);
     return;
   }
 
@@ -20,7 +20,7 @@ j3r.App = (function() {
     this.markersController.init();
     $(document).ready(function() {
       var searchInput;
-      searchInput = $('#search-input');
+      searchInput = $(j3r.conf['settings']['el_searchInput']);
       searchInput.keyup(function() {
         _this.search.search(searchInput.val());
       });
@@ -33,15 +33,15 @@ j3r.App = (function() {
 
   App.prototype.showInfoWindow = function(markerId) {
     var content;
-    content = '<span onclick="$(\'#marker-info-placeholder\').hide()" class="marker-info-close"></span>';
+    content = '<span onclick="$(\'' + j3r.conf['settings']['el_markerInfoPlaceholder'] + '\').hide()" class="marker-info-close"></span>';
     content += this.markersController.markers.infoWindows.generateInfoWindowContent(markerId);
     this.markerInfo.empty();
     this.markerInfo.append(content);
     setTimeout(function() {
-      $("#marker-info-placeholder a.colorboxGallery").colorbox({
+      $(j3r.conf['settings']['el_markerInfoPlaceholderColorbox']).colorbox({
         rel: "gal"
       });
-    }, 1000);
+    }, 500);
     this.markerInfo.show();
   };
 

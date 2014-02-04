@@ -1,7 +1,7 @@
 class j3r.Search
   @startSearchFrom = j3r.conf['settings']['startSearchFromMinCharCount']
   constructor: (@markersInfo, @searchList) ->
-    @wrapper = $('#search-results')
+    @wrapper = $(j3r.conf['settings']['el_searchResults'])
     @actualList = {}
     @actualLetters = ''
 
@@ -41,7 +41,7 @@ class j3r.Search
 
   getItem: (key) ->
     itemInfo = @markersInfo[key]
-    itemHtml = '<a onclick="app.showInfoWindow(\'' + key + '\')"><div class="search-result-item"><strong>
+    itemHtml = '<a onclick="app.showInfoWindow(\'' + key + '\')"><div class="' + j3r.conf['settings']['el_searchResultItem'] + '"><strong>
       ' + itemInfo['title'] + '</strong>(' + j3r.helpers.getCategoryInfoToString(itemInfo['cat'], 'cat-a') + ')</div></a>'       
     
 

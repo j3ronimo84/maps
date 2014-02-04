@@ -4,7 +4,16 @@ j3r.conf = {
     'catPrefix': 'cat',
     'subCatDelimiter': '_',
     'pathToInfoWindowPics': 'pics/markers_gal/',
-    'startSearchFromMinCharCount': 3
+    'startSearchFromMinCharCount': 3,
+    'mapStartPos': [49.740290, 13.365370],
+    'el_markerInfoPlaceholder': '#marker-info-placeholder',
+    'el_markerInfoPlaceholderColorbox': '#marker-info-placeholder a.colorboxGallery',
+    'el_searchInput': '#search-input',
+    'el_mapCanvas': 'map-canvas',
+    'el_infoWindowGalWrapper': '.info-window-wrapper-gal',
+    'el_selectorsWrapper': 'selectors-wrapper',
+    'el_searchResults': '#search-results',
+    'el_searchResultItem': 'search-result-item'
   },
   'categories': {
     'init': {

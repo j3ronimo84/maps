@@ -28,7 +28,6 @@ class j3r.InfoWindows
 			 class="colorboxGallery pic-gal cboxElement" rel="gal">
 		    <img class="link-outline" src="' + linkToFolder + picLink + '" alt="">
 			</a>'
-		# TODO better listener
 		output + '</div>'
 
 j3r.InfoWindows.create = ->

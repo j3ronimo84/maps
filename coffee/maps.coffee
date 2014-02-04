@@ -1,6 +1,3 @@
-# j3r = j3r | {}
-url = '../'
-
 class j3r.Map
   constructor: (@position, @mapCanvas, @mapOptions, options = null) ->
     if options?
@@ -40,8 +37,8 @@ class j3r.Map
     return    
 
 j3r.Map.create = ->
-  position = [49.740290, 13.365370]
-  mapCanvas = document.getElementById 'map-canvas'
+  position = j3r.conf['settings']['mapStartPos']
+  mapCanvas = document.getElementById j3r.conf['settings']['el_mapCanvas']
   mapOptions = 
     center: new google.maps.LatLng position[0], position[1] 
     zoom: 11

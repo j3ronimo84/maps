@@ -1,5 +1,4 @@
 class j3r.MarkersController
-  @wrapper = 'selectors-wrapper'
   constructor: (@markersList, @markers, @categories, @selected) ->
 
   init: ->
@@ -10,7 +9,8 @@ class j3r.MarkersController
   setSelections: (mainCategory, selection) ->
     # empty selectors
     wrapper = $('#' + @getParentId selection)
-    wrapper.children('.selectors-wrapper').empty() if wrapper.children('.selectors-wrapper').length > 0
+    selectorsWrapperClass = '.' + j3r.conf['settings']['el_selectorsWrapper']
+    wrapper.children(selectorsWrapperClass).empty() if wrapper.children(selectorsWrapperClass).length > 0
     # render new selectors
     @renderSelector mainCategory, selection if @categories['list'][selection]? 
     # add/remove markers
@@ -27,7 +27,7 @@ class j3r.MarkersController
       selector.append '<option data-main-cat="' + mainCategoryId + '" data-selected-cat="' + optionId + '">' + optionName + '</option>'
     wrapper = $('#wrapper-' + categoryId)
     if wrapper.length is 0
-      wrapper = $('<div class="selectors-wrapper" id="wrapper-' + categoryId + '"></div>')
+      wrapper = $('<div class="' + j3r.conf['settings']['el_selectorsWrapper'] + '" id="wrapper-' + categoryId + '"></div>')
       $('#' + @getParentId categoryId).append wrapper
     wrapper.append selector
     # initiate chosen
@@ -36,7 +36,7 @@ class j3r.MarkersController
 
   getParentId: (categoryId) ->
     mainCatEnd = categoryId.lastIndexOf '_'
-    parrentId = if mainCatEnd isnt -1 then 'wrapper-' + categoryId.substr 0, mainCatEnd else 'selectors-wrapper'
+    parrentId = if mainCatEnd isnt -1 then 'wrapper-' + categoryId.substr 0, mainCatEnd else j3r.conf['settings']['el_selectorsWrapper']
     parrentId
 
   setMarkers: () ->

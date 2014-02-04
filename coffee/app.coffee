@@ -6,7 +6,7 @@ class j3r.App
     @markers = j3r.Markers.create @map.getMap()
     @markersController = j3r.MarkersController.create @markers
     @search = j3r.Search.create()
-    @markerInfo = $('#marker-info-placeholder')
+    @markerInfo = $(j3r.conf['settings']['el_markerInfoPlaceholder'])
     return
 
   start: ->
@@ -17,7 +17,7 @@ class j3r.App
     @markersController.init()
     #search listen
     $(document).ready =>
-      searchInput = $('#search-input')
+      searchInput = $(j3r.conf['settings']['el_searchInput'])
       searchInput.keyup =>
         @search.search searchInput.val()
         return
@@ -30,16 +30,16 @@ class j3r.App
 
   showInfoWindow: (markerId) ->
     # TODO refactor? give to another file/class
-    content = '<span onclick="$(\'#marker-info-placeholder\').hide()" class="marker-info-close"></span>'
+    content = '<span onclick="$(\'' + j3r.conf['settings']['el_markerInfoPlaceholder'] + '\').hide()" class="marker-info-close"></span>'
     # TODO use getter
     content += @markersController.markers.infoWindows.generateInfoWindowContent markerId
     @markerInfo.empty()
     @markerInfo.append content
     setTimeout ->
-        $("#marker-info-placeholder a.colorboxGallery").colorbox rel:"gal"
+        $(j3r.conf['settings']['el_markerInfoPlaceholderColorbox']).colorbox rel:"gal"
         return
       ,
-        1000
+        500
     @markerInfo.show()
     return
 
@@ -85,40 +85,3 @@ j3r.helpers =
     for pos in [0...text.length]
       text[pos] = toReplace[text[pos]] if !toReplace[text[pos]]?
     text
-
-  # countOccurences: (string, count) ->
-  #   line = clone string
-  #   return line.length() - line.replace(count, "").length()
-
-
-# class j3r.Observer
-#   debugMode: false
-#   constructor: ->
-#     @subscribers = {}
-#     if window["anev"]?
-#       @debugMode = window["anev"].debugMode
-#   on: (type, fn, context) ->
-#     if typeof  fn isnt "function"
-#       if typeof context[fn] is "function"
-#         fn = context[fn]
-#       else
-#         throw new Error "None of variables #{fn}, #{context[fn]} are functions"
-#     if typeof @subscribers[type] is "undefined"
-#       @subscribers[type] = []
-#     @subscribers[type].push fn: fn, context: context || @
-
-#   fire: (type) ->
-#     args = [].slice.call arguments, 1
-#     if @debugMode then console.log "fire " + type, args, @
-#     if @subscribers[type]?
-#       for method, key  in @subscribers[type]
-#         do (key, method) ->
-#           method.fn.apply method.context, args
-
-#   remove: (type, fn, context) ->
-#     for method, key  in @subscribers[type] when method.fn is fn and method.context is context
-#       do (key, method) ->
-#         @subscribers[type].splice key, 1
-
-#   listen: (object, type, fn) ->
-#     if @debugMode then console.log "listening " + type, object

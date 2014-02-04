@@ -25,10 +25,10 @@ class j3r.Markers
       @infoWindows.getInfoWindow(markerId).open @map,marker
       # timeout because its not in callback 
       setTimeout ->
-          $(".info-window-wrapper-gal a.colorboxGallery").colorbox rel:"gal"
+          $(j3r.conf['settings']['el_markerInfoPlaceholderColorbox']).colorbox rel:"gal"
           return
         ,
-          1000
+          500
       return
     marker  
 
