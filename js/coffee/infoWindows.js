@@ -21,14 +21,19 @@ j3r.InfoWindows = (function() {
   };
 
   InfoWindows.prototype.generateInfoWindowContent = function(markerId) {
-    var contentString;
+    var categories, contentString;
+    categories = this.markerInfos[markerId];
+    contentString = '<div class="info-window-wrapper">\
+			<h3>' + this.markerInfos[markerId]['title'] + '</h3>\
+			<div class="info-window-text main-type"><strong>Typ:&nbsp</strong> \
+			' + j3r.helpers.getCategoryInfo(markerId, 1) + '</div>';
+    if (j3r.helpers.getCategoryInfo(markerId, 2) !== '') {
+      contentString += '<div class="info-window-text sub-type"><strong>Oddělení:&nbsp;</strong>' + j3r.helpers.getCategoryInfo(markerId, 2, ', ') + '</div>';
+    }
     if ((this.markerInfos[markerId]['gal'] == null) + '\
 			</div>') {
-      return contentString = '<div class="info-window-wrapper">\
-			<h3>' + this.markerInfos[markerId]['title'] + '</h3>\
-			<span class="info-window-adress"><strong>umístění:</strong> \
-			' + j3r.helpers.getCategoryInfoToString(this.markerInfos[markerId]['cat'], 'cat-a') + '</span>\
-			<div info-window-text->' + this.markerInfos[markerId]['info'] + '</div>\
+      return contentString += '<div  class="info-window-text info">' + this.markerInfos[markerId]['info'] + '</div>\
+			<div class="info-window-text adress"">Adresa:&nbsp;' + this.markerInfos[markerId]['adress'] + '</div>\
 			' + this.generateInfoWindowGallery(markerId, this.markerInfos[markerId]['gal']);
     }
   };

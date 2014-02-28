@@ -34,12 +34,14 @@ j3r.Markers = (function() {
   };
 
   Markers.prototype.getMarker = function(markerId, markerInfo) {
-    var marker,
+    var marker, markerIcon,
       _this = this;
+    markerIcon = markerInfo['cat'].indexOf('cat-a_a') === 0 ? 'pics/marker-a.png' : 'pics/marker-b.png';
     marker = new google.maps.Marker({
       position: new google.maps.LatLng(markerInfo['pos'][0], markerInfo['pos'][1]),
       map: this.map,
-      title: markerInfo['title']
+      title: markerInfo['title'],
+      icon: markerIcon
     });
     google.maps.event.addListener(marker, 'click', function() {
       _this.infoWindows.getInfoWindow(markerId).open(_this.map, marker);

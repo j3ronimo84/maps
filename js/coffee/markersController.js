@@ -18,8 +18,8 @@ j3r.MarkersController = (function() {
 
   MarkersController.prototype.setSelections = function(mainCategory, selection) {
     var selectorsWrapperClass, wrapper;
-    wrapper = $('#' + this.getParentId(selection));
     selectorsWrapperClass = '.' + j3r.conf['settings']['el_selectorsWrapper'];
+    wrapper = $('#' + this.getParentId(selection));
     if (wrapper.children(selectorsWrapperClass).length > 0) {
       wrapper.children(selectorsWrapperClass).empty();
     }

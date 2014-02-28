@@ -17,7 +17,6 @@ class j3r.Search
       # delete one from selections or adding
       if key < @actualLetters.length or key.length >= j3r.Search.startSearchFrom
         # continue searching
-        # if (@actualLetters isnt '' and key.indexOf(@actualLetters) is 0 ) and key.length > @actualLetters.length
         if key.length > @actualLetters.length and !jQuery.isEmptyObject @actualList
           for keyAct, item of @actualList
             # delete if not in list
@@ -33,21 +32,23 @@ class j3r.Search
 
   renderResults: ->
     @wrapper.empty()
+    if $.isEmptyObject @actualList then @wrapper.hide() else @wrapper.show()
     for itemKey, item of @actualList
       @wrapper.append item
-    # @wrapper.children('.search-result-item').click (ev) ->
-    #   alert $(ev.target).attr 'data-key'
     return  
 
   getItem: (key) ->
     itemInfo = @markersInfo[key]
     itemHtml = '<a onclick="app.showInfoWindow(\'' + key + '\')"><div class="' + j3r.conf['settings']['el_searchResultItem'] + '"><strong>
-      ' + itemInfo['title'] + '</strong>(' + j3r.helpers.getCategoryInfoToString(itemInfo['cat'], 'cat-a') + ')</div></a>'       
+      ' + itemInfo['title'] + '</strong> (' + j3r.helpers.getCategoryInfo( key, 1) + ')</div></a>'       
     
 
   generateListOfMarkers: (markers) ->
+    prohibitedKeys = {'cat':yes, 'pos':yes}
     for markerId, markerInfo of markers
-      text = markerInfo['title'] + j3r.helpers.getCategoryInfoToString( markerInfo['cat'], 'cat-a', '') + markerInfo['info']
+      text = j3r.helpers.getAllCategoriesInfo(markerId).join('')
+      for key, info of markerInfo
+        text += info if !prohibitedKeys[key]?
       text = j3r.helpers.getTransformedText text, no
       console.log "'" + markerId + "':'" + text + "'"
     return

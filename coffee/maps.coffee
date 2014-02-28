@@ -41,6 +41,6 @@ j3r.Map.create = ->
   mapCanvas = document.getElementById j3r.conf['settings']['el_mapCanvas']
   mapOptions = 
     center: new google.maps.LatLng position[0], position[1] 
-    zoom: 11
+    zoom: j3r['conf']['settings']['mapZoom']
     mapTypeId: google.maps.MapTypeId.ROADMAP
   new j3r.Map position, mapCanvas, mapOptions

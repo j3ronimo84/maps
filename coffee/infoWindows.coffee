@@ -12,11 +12,15 @@ class j3r.InfoWindows
 		infowindow = new google.maps.InfoWindow content: @generateInfoWindowContent markerId
 
 	generateInfoWindowContent: (markerId) ->
+		categories = @markerInfos[markerId]
 		contentString = '<div class="info-window-wrapper">
 			<h3>' + @markerInfos[markerId]['title'] + '</h3>
-			<span class="info-window-adress"><strong>umístění:</strong> 
-			'+ j3r.helpers.getCategoryInfoToString(@markerInfos[markerId]['cat'], 'cat-a') + '</span>
-			<div info-window-text->' + @markerInfos[markerId]['info'] + '</div>
+			<div class="info-window-text main-type"><strong>Typ:&nbsp</strong> 
+			'+ j3r.helpers.getCategoryInfo(markerId, 1) + '</div>';
+		if j3r.helpers.getCategoryInfo(markerId, 2) isnt ''
+			contentString += '<div class="info-window-text sub-type"><strong>Oddělení:&nbsp;</strong>' + j3r.helpers.getCategoryInfo(markerId, 2, ', ') + '</div>'
+		contentString += '<div  class="info-window-text info">' + @markerInfos[markerId]['info'] + '</div>
+			<div class="info-window-text adress"">Adresa:&nbsp;' + @markerInfos[markerId]['adress'] + '</div>
 			' + @generateInfoWindowGallery(markerId, @markerInfos[markerId]['gal']) if !@markerInfos[markerId]['gal']? + '
 			</div>'		
 
@@ -32,3 +36,4 @@ class j3r.InfoWindows
 
 j3r.InfoWindows.create = ->
 	new j3r.InfoWindows j3r.conf['markers']
+

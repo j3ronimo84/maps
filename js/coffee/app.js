@@ -42,6 +42,9 @@ j3r.App = (function() {
         rel: "gal"
       });
     }, 500);
+    this.markerInfo.css('left', (($(window).width() - 960) / 2) + (960 - 308));
+    $(j3r.conf['settings']['el_searchInput']).val('');
+    this.search.search('');
     this.markerInfo.show();
   };
 
@@ -50,47 +53,77 @@ j3r.App = (function() {
 })();
 
 j3r.helpers = {
-  getCategoryInfoToString: function(selection, category, delimiter) {
-    var beginPos, cat, catPos, catPosStart, end, key, nextKey, nextPos, output, parrentCat, path, pos, start, startAt, subCat, _i, _len;
+  categoryInfo: {},
+  getAllCategoriesInfo: function(itemId) {
+    var level, levelValues, output, _ref;
+    if (j3r.helpers.categoryInfo[itemId] == null) {
+      j3r.helpers.setCategoryInfo(itemId);
+    }
+    output = [];
+    _ref = j3r.helpers['categoryInfo'][itemId];
+    for (level in _ref) {
+      levelValues = _ref[level];
+      output = output.concat(levelValues);
+    }
+    return output;
+  },
+  getCategoryInfo: function(itemId, level, delimiter) {
+    var output;
+    if (level == null) {
+      level = 1;
+    }
     if (delimiter == null) {
-      delimiter = ' - ';
+      delimiter = ' ';
     }
-    catPosStart = [];
-    beginPos = 0;
-    while (selection.indexOf(j3r.conf['settings']['catPrefix'], beginPos) !== -1) {
-      catPos = selection.indexOf(j3r.conf['settings']['catPrefix'], beginPos);
-      beginPos = catPos + j3r.conf['settings']['catPrefix'].length;
-      catPosStart.push(catPos);
+    if (j3r.helpers.categoryInfo[itemId] == null) {
+      j3r.helpers.setCategoryInfo(itemId);
     }
-    for (key in catPosStart) {
-      startAt = catPosStart[key];
-      nextKey = parseInt(key) + 1;
-      end = catPosStart[nextKey] != null ? catPosStart[nextKey] : selection.length;
-      cat = selection.substring(startAt, end);
-      if (cat.indexOf(category === 0)) {
-        selection = cat;
+    output = '';
+    if (j3r.helpers['categoryInfo'][itemId][level] != null) {
+      output = j3r.helpers['categoryInfo'][itemId][level].join(delimiter);
+    }
+    return output;
+  },
+  setCategoryInfo: function(itemId) {
+    var categories, category, end, level, selection;
+    selection = j3r['conf']['markers'][itemId]['cat'];
+    end = 0;
+    categories = {};
+    while (true) {
+      end = selection.indexOf(j3r.conf['settings']['catPrefix'], 1);
+      if (end === -1 && selection.length > 0) {
+        end = selection.length;
+      }
+      if (end > -1) {
+        category = selection.substring(0, end);
+        level = j3r.helpers.countOccurences(category, '_');
+        if (categories[level] == null) {
+          categories[level] = [];
+        }
+        categories[level].push(j3r.helpers.getCategoryName(category, j3r['conf']['categories']['list']));
+        selection = selection.substring(end);
+      } else {
         break;
       }
     }
-    path = [];
-    start = 0;
-    while (selection.indexOf(j3r.conf['settings']['subCatDelimiter'], start) !== -1) {
-      pos = selection.indexOf(j3r.conf['settings']['subCatDelimiter'], start);
-      start = pos + 1;
-      nextPos = selection.indexOf(j3r.conf['settings']['subCatDelimiter'], start) !== -1 ? selection.indexOf(j3r.conf['settings']['subCatDelimiter'], start) : selection.length;
-      path.push(selection.substring(0, nextPos));
+    j3r.helpers['categoryInfo'][itemId] = categories;
+  },
+  getCategoryName: function(cat, list) {
+    var key, title;
+    if ((list[cat] != null) && typeof list[cat] !== 'object') {
+      return list[cat];
     }
-    output = '';
-    parrentCat = category;
-    for (_i = 0, _len = path.length; _i < _len; _i++) {
-      subCat = path[_i];
-      if (output.length !== 0) {
-        output += delimiter;
+    for (key in list) {
+      if ((cat.indexOf(key) === 0) && (j3r.helpers.countOccurences(cat.substring(key.length), '_') === 1)) {
+        title = j3r.helpers.getCategoryName(cat, list[key]);
+        return title;
       }
-      output += j3r.conf['categories']['list'][parrentCat][subCat];
-      parrentCat = subCat;
     }
-    return output;
+  },
+  countOccurences: function(str, find) {
+    var regex;
+    regex = new RegExp(find, "g");
+    return str.length - str.replace(regex, "").length;
   },
   getTransformedText: function(text, useSpaces) {
     var pos, toReplace, _i, _ref;

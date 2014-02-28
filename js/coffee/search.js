@@ -49,6 +49,11 @@ j3r.Search = (function() {
   Search.prototype.renderResults = function() {
     var item, itemKey, _ref;
     this.wrapper.empty();
+    if ($.isEmptyObject(this.actualList)) {
+      this.wrapper.hide();
+    } else {
+      this.wrapper.show();
+    }
     _ref = this.actualList;
     for (itemKey in _ref) {
       item = _ref[itemKey];
@@ -60,14 +65,24 @@ j3r.Search = (function() {
     var itemHtml, itemInfo;
     itemInfo = this.markersInfo[key];
     return itemHtml = '<a onclick="app.showInfoWindow(\'' + key + '\')"><div class="' + j3r.conf['settings']['el_searchResultItem'] + '"><strong>\
-      ' + itemInfo['title'] + '</strong>(' + j3r.helpers.getCategoryInfoToString(itemInfo['cat'], 'cat-a') + ')</div></a>';
+      ' + itemInfo['title'] + '</strong> (' + j3r.helpers.getCategoryInfo(key, 1) + ')</div></a>';
   };
 
   Search.prototype.generateListOfMarkers = function(markers) {
-    var markerId, markerInfo, text;
+    var info, key, markerId, markerInfo, prohibitedKeys, text;
+    prohibitedKeys = {
+      'cat': true,
+      'pos': true
+    };
     for (markerId in markers) {
       markerInfo = markers[markerId];
-      text = markerInfo['title'] + j3r.helpers.getCategoryInfoToString(markerInfo['cat'], 'cat-a', '') + markerInfo['info'];
+      text = j3r.helpers.getAllCategoriesInfo(markerId).join('');
+      for (key in markerInfo) {
+        info = markerInfo[key];
+        if (prohibitedKeys[key] == null) {
+          text += info;
+        }
+      }
       text = j3r.helpers.getTransformedText(text, false);
       console.log("'" + markerId + "':'" + text + "'");
     }

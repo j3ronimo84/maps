@@ -40,43 +40,56 @@ class j3r.App
         return
       ,
         500
+    @markerInfo.css 'left', ((($(window).width() - 960)/2)+(960-308))
+    #reset search 
+    $(j3r.conf['settings']['el_searchInput']).val ''
+    @search.search ''    
     @markerInfo.show()
     return
 
 j3r.helpers = 
-  getCategoryInfoToString: (selection, category, delimiter = ' - ') ->
-    # divide into categories
-    catPosStart = []
-    beginPos = 0
-    while selection.indexOf(j3r.conf['settings']['catPrefix'], beginPos) isnt -1
-      catPos = selection.indexOf j3r.conf['settings']['catPrefix'], beginPos
-      beginPos = catPos + j3r.conf['settings']['catPrefix'].length
-      catPosStart.push catPos 
-    # find wanted category 
-    for key, startAt of catPosStart
-      nextKey = parseInt(key) + 1
-      end = if catPosStart[nextKey]? then catPosStart[nextKey] else selection.length
-      cat = selection.substring startAt, end
-      if cat.indexOf category is 0
-        selection = cat
-        break
-    # subcategories 
-    path = []
-    start = 0
-    while selection.indexOf(j3r.conf['settings']['subCatDelimiter'], start) isnt -1
-      pos = selection.indexOf j3r.conf['settings']['subCatDelimiter'], start
-      start = pos + 1
-      # end of subcat
-      nextPos = if selection.indexOf(j3r.conf['settings']['subCatDelimiter'], start) isnt -1 then selection.indexOf j3r.conf['settings']['subCatDelimiter'], start else selection.length
-      path.push selection.substring 0, nextPos
-    # merge output 
+  categoryInfo: {}
+  getAllCategoriesInfo: (itemId) ->
+    j3r.helpers.setCategoryInfo itemId if !j3r.helpers.categoryInfo[itemId]?
+    output = []
+    for level, levelValues of j3r.helpers['categoryInfo'][itemId]
+      output = output.concat levelValues
+    output  
+  getCategoryInfo: (itemId, level=1, delimiter=' ') ->
+    j3r.helpers.setCategoryInfo itemId if !j3r.helpers.categoryInfo[itemId]?
     output = ''
-    parrentCat = category
-    for subCat in path
-      output += delimiter if output.length isnt 0
-      output += j3r.conf['categories']['list'][parrentCat][subCat]
-      parrentCat = subCat
+    output = j3r.helpers['categoryInfo'][itemId][level].join(delimiter) if j3r.helpers['categoryInfo'][itemId][level]?
     output
+  setCategoryInfo: (itemId) ->
+    selection = j3r['conf']['markers'][itemId]['cat']
+    end = 0
+    categories = {}
+    while true
+      end = selection.indexOf j3r.conf['settings']['catPrefix'], 1
+      # only one category
+      end = selection.length if end is - 1 and selection.length > 0 
+      if end > -1
+        category = selection.substring 0, end
+        level = j3r.helpers.countOccurences category, '_'
+        categories[level] = [] if !categories[level]?
+        categories[level].push j3r.helpers.getCategoryName category, j3r['conf']['categories']['list']
+        selection = selection.substring end
+      else
+        break
+    j3r.helpers['categoryInfo'][itemId] = categories    
+    return    
+  getCategoryName: (cat, list) ->
+    # got name, but not list of subcats
+    return list[cat] if list[cat]? and typeof list[cat] isnt 'object'
+    for key of list
+      # is parent = cat has same begin and has only one '_' which defines last cat
+      if (cat.indexOf(key) is 0) and (j3r.helpers.countOccurences(cat.substring(key.length), '_') is 1)
+        title = j3r.helpers.getCategoryName cat, list[key]
+        return title
+
+  countOccurences: (str, find) ->
+    regex = new RegExp(find, "g");
+    str.length - str.replace(regex, "").length      
 
   getTransformedText: (text, useSpaces = yes) ->
     text = text.toLowerCase()

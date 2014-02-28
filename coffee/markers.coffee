@@ -17,10 +17,13 @@ class j3r.Markers
     return
 
   getMarker: (markerId, markerInfo) ->
+    # TODO refactor - give as function as to constructor or use setter
+    markerIcon = if markerInfo['cat'].indexOf('cat-a_a') is 0 then 'pics/marker-a.png' else 'pics/marker-b.png'
     marker = new google.maps.Marker
       position: new google.maps.LatLng markerInfo['pos'][0], markerInfo['pos'][1]
       map: @map
       title: markerInfo['title']
+      icon: markerIcon
     google.maps.event.addListener marker, 'click', =>
       @infoWindows.getInfoWindow(markerId).open @map,marker
       # timeout because its not in callback 
@@ -30,7 +33,7 @@ class j3r.Markers
         ,
           500
       return
-    marker  
+    marker
 
   removeMarker: (markerId) ->
     @markersObjects[markerId].setMap null

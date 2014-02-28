@@ -1,10 +1,12 @@
 j3r.conf =
   'settings':
     'catPrefix': 'cat'
+    'catFullPrefix': 'cat-'
     'subCatDelimiter': '_'
     'pathToInfoWindowPics': 'pics/markers_gal/'
     'startSearchFromMinCharCount': 3
-    'mapStartPos': [49.740290, 13.365370]
+    'mapStartPos': [50.132023,15.366912]
+    'mapZoom': 8
     'el_markerInfoPlaceholder': '#marker-info-placeholder'
     'el_markerInfoPlaceholderColorbox': '#marker-info-placeholder a.colorboxGallery' 
     'el_searchInput': '#search-input'
@@ -16,61 +18,61 @@ j3r.conf =
   'categories':
     'init':
       'cat-a':'cat-a'
-      'cat-b':'cat-b'
+      # 'cat-b':'cat-b'
     'list':
       'cat-a':
-        'cat-a_a':'Plzensky kraj'
-        'cat-a_b':'Prazsky kraj'
+        'cat-a_a':'Obchod'
+        'cat-a_b':'Outlet'
       'cat-a_a':
-        'cat-a_a_a':'Plzen'
-        'cat-a_a_b':'Venkov'
-      'cat-a_b':
-        'cat-a_b_a':'Praha'
-      'cat-b':
-        'cat-b_a':'obchod'
-        'cat-b_b':'jiny'
+        'cat-a_a_a':'W Casual'
+        'cat-a_a_b':'M Casual'
+        'cat-a_a_c':'W EDC'
+        'cat-a_a_d':'M EDC'
+        'cat-a_a_e':'W Collection'
+        'cat-a_a_f':'M Collection'
+        'cat-a_a_g':'de. Corp'
+        'cat-a_a_h':'Young'
+        'cat-a_a_i':'Minies'
     'titles':
-      'cat-a':'kraj'
-      'cat-a_a':'mesto'
-      'cat-a_b':'mesto'
-      'cat-b':'typ mista'
+      'cat-a':'Typ prodejny'
+      'cat-a_a':'Nabídka obchodu'
+      # 'cat-a_b':'mesto'
+      # 'cat-b':'typ mista'
   'markers':
-    'ledce':
-      cat:'cat-a_a_bcat-b_b'
-      title:'Ledce'
-      pos:[49.820708, 13.328369]
-      info:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultrices, est nec vestibulum lacinia, enim purus sodales metus, non consequat mi sapien placerat ante. Aliquam urna enim, aliquet a vestibulum ac, egestas ac quam. Vestibulum fermentum pulvinar lorem, porta interdum tellus luctus vel. Quisque ut tempor est. Cras pulvinar blandit augue, eu pharetra sem condimentum eu. Nulla eu malesuada risus.'
-    'sbks' :  
-      cat:'cat-a_a_acat-b_b'
-      title:'Socialbakers',pos:[49.754044, 13.378576]
-      info:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultrices, est nec vestibulum lacinia, enim purus sodales metus, non consequat mi sapien placerat ante. Aliquam urna enim, aliquet a vestibulum ac, egestas ac quam. Vestibulum fermentum pulvinar lorem, porta interdum tellus luctus vel. Quisque ut tempor est. Cras pulvinar blandit augue, eu pharetra sem condimentum eu. Nulla eu malesuada risus.'
-    'kaufland_locho':
-      cat:'cat-a_a_acat-b_a'
-      title:'Kaufland'
-      pos:[49.753670, 13.376709]
-      info:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultrices, est nec vestibulum lacinia, enim purus sodales metus, non consequat mi sapien placerat ante. Aliquam urna enim, aliquet a vestibulum ac, egestas ac quam. Vestibulum fermentum pulvinar lorem, porta interdum tellus luctus vel. Quisque ut tempor est. Cras pulvinar blandit augue, eu pharetra sem condimentum eu. Nulla eu malesuada risus.'
-    'bauhaus_bory':
-      cat:'cat-a_a_acat-b_a'
-      title:'Bauhaus'
-      pos:[49.729528, 13.350264]
-      info:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultrices, est nec vestibulum lacinia, enim purus sodales metus, non consequat mi sapien placerat ante. Aliquam urna enim, aliquet a vestibulum ac, egestas ac quam. Vestibulum fermentum pulvinar lorem, porta interdum tellus luctus vel. Quisque ut tempor est. Cras pulvinar blandit augue, eu pharetra sem condimentum eu. Nulla eu malesuada risus.'
-      gal:['1_sm.jpg','2_sm.jpg','3_sm.jpg']
-    'chelcickeho':
-      cat:'cat-a_a_acat-b_b'
-      title:'Chelcickeho'
-      pos:[49.739413, 13.365165],
-      info:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultrices, est nec vestibulum lacinia, enim purus sodales metus, non consequat mi sapien placerat ante. Aliquam urna enim, aliquet a vestibulum ac, egestas ac quam. Vestibulum fermentum pulvinar lorem, porta interdum tellus luctus vel. Quisque ut tempor est. Cras pulvinar blandit augue, eu pharetra sem condimentum eu. Nulla eu malesuada risus.'
-    'vaclav':
-      cat:'cat-a_b_acat-b_b'
-      title:'Vaclav'
-      pos:[50.080195, 14.429101]
-      info:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultrices, est nec vestibulum lacinia, enim purus sodales metus, non consequat mi sapien placerat ante. Aliquam urna enim, aliquet a vestibulum ac, egestas ac quam. Vestibulum fermentum pulvinar lorem, porta interdum tellus luctus vel. Quisque ut tempor est. Cras pulvinar blandit augue, eu pharetra sem condimentum eu. Nulla eu malesuada risus.'
-  # generated via j3r.Search.callGenerateListOfMarkers. 
+    'paladium':
+      cat:'cat-a_acat-a_a_acat-a_a_bcat-a_a_ccat-a_a_dcat-a_a_ecat-a_a_f'
+      title:'Palladium Praha'
+      pos:[50.089709,14.428457]
+      info:'Telefon: 225 771 525'
+      adress:'Praha, neco'
+    'harfa' :  
+      cat:'cat-a_acat-a_a_acat-a_a_bcat-a_a_ccat-a_a_dcat-a_a_ecat-a_a_fcat-a_a_gcat-a_a_hcat-a_a_i'
+      title:'Harfa Praha',
+      pos:[50.103942, 14.490513]
+      info:'Telefon: 234 132 139'
+      adress:'Praha, neco'
+    'liberec':
+      cat:'cat-a_acat-a_a_acat-a_a_bcat-a_a_ccat-a_a_dcat-a_a_f'
+      title:'Liberec'
+      pos:[50.767951, 15.059456]
+      info:'Telefon: 485 101 667'
+      adress:'Liberec pitomec'
+    'fashionarena':
+      cat:'cat-a_b'
+      title:'Fashion Arena Praha'
+      pos:[50.077634,14.53952]
+      info:'Telefon 234 657 333'
+      adress:'Praha, neco'
+    # 'vaclav':
+    #   cat:'cat-a_b_acat-b_b'
+    #   title:'Vaclav'
+    #   pos:[50.080195, 14.429101]
+    #   info:'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+    #   gal:['1_sm.jpg','2_sm.jpg','3_sm.jpg']
+  # generated via j3r.Search.callGenerateListOfMarkers() 
   # generate manually after each markers or categories change!
   'searchList':
-    'ledce':'ledceplzenskykrajvenkovloremipsumdolorsitamet,consecteturadipiscingelit.morbiultrices,estnecvestibulumlacinia,enimpurussodalesmetus,nonconsequatmisapienplaceratante.aliquamurnaenim,aliquetavestibulumac,egestasacquam.vestibulumfermentumpulvinarlorem,portainterdumtellusluctusvel.quisqueuttemporest.craspulvinarblanditaugue,eupharetrasemcondimentumeu.nullaeumalesuadarisus.'
-    'sbks':'socialbakersplzenskykrajplzenloremipsumdolorsitamet,consecteturadipiscingelit.morbiultrices,estnecvestibulumlacinia,enimpurussodalesmetus,nonconsequatmisapienplaceratante.aliquamurnaenim,aliquetavestibulumac,egestasacquam.vestibulumfermentumpulvinarlorem,portainterdumtellusluctusvel.quisqueuttemporest.craspulvinarblanditaugue,eupharetrasemcondimentumeu.nullaeumalesuadarisus.'
-    'kaufland_locho':'kauflandplzenskykrajplzenloremipsumdolorsitamet,consecteturadipiscingelit.morbiultrices,estnecvestibulumlacinia,enimpurussodalesmetus,nonconsequatmisapienplaceratante.aliquamurnaenim,aliquetavestibulumac,egestasacquam.vestibulumfermentumpulvinarlorem,portainterdumtellusluctusvel.quisqueuttemporest.craspulvinarblanditaugue,eupharetrasemcondimentumeu.nullaeumalesuadarisus.'
-    'bauhaus_bory':'bauhausplzenskykrajplzenloremipsumdolorsitamet,consecteturadipiscingelit.morbiultrices,estnecvestibulumlacinia,enimpurussodalesmetus,nonconsequatmisapienplaceratante.aliquamurnaenim,aliquetavestibulumac,egestasacquam.vestibulumfermentumpulvinarlorem,portainterdumtellusluctusvel.quisqueuttemporest.craspulvinarblanditaugue,eupharetrasemcondimentumeu.nullaeumalesuadarisus.'
-    'chelcickeho':'chelcickehoplzenskykrajplzenloremipsumdolorsitamet,consecteturadipiscingelit.morbiultrices,estnecvestibulumlacinia,enimpurussodalesmetus,nonconsequatmisapienplaceratante.aliquamurnaenim,aliquetavestibulumac,egestasacquam.vestibulumfermentumpulvinarlorem,portainterdumtellusluctusvel.quisqueuttemporest.craspulvinarblanditaugue,eupharetrasemcondimentumeu.nullaeumalesuadarisus.'
-    'vaclav':'vaclavprazskykrajprahaloremipsumdolorsitamet,consecteturadipiscingelit.morbiultrices,estnecvestibulumlacinia,enimpurussodalesmetus,nonconsequatmisapienplaceratante.aliquamurnaenim,aliquetavestibulumac,egestasacquam.vestibulumfermentumpulvinarlorem,portainterdumtellusluctusvel.quisqueuttemporest.craspulvinarblanditaugue,eupharetrasemcondimentumeu.nullaeumalesuadarisus.' 
+    'paladium':'obchodwcasualmcasualwedcmedcwcollectionmcollectionpalladiumprahatelefon:225771525praha,neco'
+    'harfa':'obchodwcasualmcasualwedcmedcwcollectionmcollectionde.corpyoungminiesharfaprahatelefon:234132139praha,neco'
+    'liberec':'obchodwcasualmcasualwedcmedcmcollectionliberectelefon:485101667liberecpitomec'
+    'fashionarena':'outletfashionarenaprahatelefon234657333praha,neco'  

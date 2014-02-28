@@ -8,8 +8,8 @@ class j3r.MarkersController
 
   setSelections: (mainCategory, selection) ->
     # empty selectors
-    wrapper = $('#' + @getParentId selection)
     selectorsWrapperClass = '.' + j3r.conf['settings']['el_selectorsWrapper']
+    wrapper = $('#' + @getParentId selection)
     wrapper.children(selectorsWrapperClass).empty() if wrapper.children(selectorsWrapperClass).length > 0
     # render new selectors
     @renderSelector mainCategory, selection if @categories['list'][selection]? 
