@@ -64,7 +64,7 @@ j3r.Search = (function() {
   Search.prototype.getItem = function(key) {
     var itemHtml, itemInfo;
     itemInfo = this.markersInfo[key];
-    return itemHtml = '<a onclick="app.showInfoWindow(\'' + key + '\')"><div class="' + j3r.conf['settings']['el_searchResultItem'] + '"><strong>\
+    return itemHtml = '<a onclick="app.jumpToMarker(\'' + key + '\')"><div class="' + j3r.conf['settings']['el_searchResultItem'] + '"><strong>\
       ' + itemInfo['title'] + '</strong> (' + j3r.helpers.getCategoryInfo(key, 1) + ')</div></a>';
   };
 

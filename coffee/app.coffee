@@ -28,6 +28,18 @@ class j3r.App
     @markersController.setSelections mainCat, selectedCat
     return  
 
+  jumpToMarker: (markerId) =>
+    $(j3r.conf['settings']['el_searchInput']).val('')
+    @search.search ''
+    #reset first cat 
+    @select 'cat-a', 'cat-a'
+    pos = new google.maps.LatLng j3r.conf['markers'][markerId]['pos'][0], j3r.conf['markers'][markerId]['pos'][1] 
+    @map.getMap().setCenter pos
+    @map.getMap().setZoom j3r.conf['settings']['mapZoomOnMarkerDetail']
+    @markers.showMarkerInfo markerId
+    return
+
+  # not in use - show info window after search 
   showInfoWindow: (markerId) ->
     # TODO refactor? give to another file/class
     content = '<span onclick="$(\'' + j3r.conf['settings']['el_markerInfoPlaceholder'] + '\').hide()" class="marker-info-close"></span>'

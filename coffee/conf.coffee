@@ -7,6 +7,7 @@ j3r.conf =
     'startSearchFromMinCharCount': 3
     'mapStartPos': [50.132023,15.366912]
     'mapZoom': 8
+    'mapZoomOnMarkerDetail': 14
     'el_markerInfoPlaceholder': '#marker-info-placeholder'
     'el_markerInfoPlaceholderColorbox': '#marker-info-placeholder a.colorboxGallery' 
     'el_searchInput': '#search-input'

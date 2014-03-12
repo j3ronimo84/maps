@@ -36,6 +36,9 @@ j3r.MarkersController = (function() {
       onChange="app.select($(\'#' + categoryId + ' option:selected\').attr(\'data-main-cat\'),$(\'#' + categoryId + ' option:selected\').attr(\'data-selected-cat\'))" \
       data-placeholder="' + this.categories['titles'][categoryId] + '" style="width:200px;"><select>');
     selector.append('<option></option>');
+    if (categoryId === 'cat-a') {
+      selector.append('<option data-main-cat="cat-a" data-selected-cat="cat-a">Všechny prodejny</option>');
+    }
     _ref = this.categories['list'][categoryId];
     for (optionId in _ref) {
       optionName = _ref[optionId];

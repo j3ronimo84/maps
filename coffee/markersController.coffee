@@ -23,6 +23,10 @@ class j3r.MarkersController
       onChange="app.select($(\'#' + categoryId + ' option:selected\').attr(\'data-main-cat\'),$(\'#' + categoryId + ' option:selected\').attr(\'data-selected-cat\'))" 
       data-placeholder="' + @categories['titles'][categoryId] + '" style="width:200px;"><select>')
     selector.append '<option></option>'
+    # TODO REFACTOR and remove this "hack"
+    # reset options
+    if categoryId is 'cat-a'
+      selector.append '<option data-main-cat="cat-a" data-selected-cat="cat-a">Všechny prodejny</option>'
     for optionId, optionName of @categories['list'][categoryId]
       selector.append '<option data-main-cat="' + mainCategoryId + '" data-selected-cat="' + optionId + '">' + optionName + '</option>'
     wrapper = $('#wrapper-' + categoryId)

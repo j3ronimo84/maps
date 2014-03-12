@@ -25,6 +25,19 @@ class j3r.Markers
       title: markerInfo['title']
       icon: markerIcon
     google.maps.event.addListener marker, 'click', =>
+      @showMarkerInfo markerId, marker
+      return
+    marker
+
+  removeMarker: (markerId) ->
+    @markersObjects[markerId].setMap null
+    @actualMarkers[markerId] = no
+    return
+
+  showMarkerInfo: (markerId, marker=null) =>
+    marker = @markersObjects[markerId] if !marker? and @markersObjects[markerId]?
+    if marker?
+      @infoWindows.hideAllMarkersInfoWindows()
       @infoWindows.getInfoWindow(markerId).open @map,marker
       # timeout because its not in callback 
       setTimeout ->
@@ -32,12 +45,6 @@ class j3r.Markers
           return
         ,
           500
-      return
-    marker
-
-  removeMarker: (markerId) ->
-    @markersObjects[markerId].setMap null
-    @actualMarkers[markerId] = no
     return
 
   addMarkerByPos: (pos) ->

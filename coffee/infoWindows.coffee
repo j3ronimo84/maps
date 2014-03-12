@@ -7,6 +7,11 @@ class j3r.InfoWindows
 		@markersInfoWindows[markerId] = @generateInfoWindow markerId, @markerInfos[markerId] if !@markersInfoWindows[markerId]?
 		@markersInfoWindows[markerId]
 
+	hideAllMarkersInfoWindows: =>
+		for key, markerInfoWindow of @markersInfoWindows	
+			markerInfoWindow.close()
+		return
+			
 	# TODO - use template 
 	generateInfoWindow: (markerId) ->
 		infowindow = new google.maps.InfoWindow content: @generateInfoWindowContent markerId

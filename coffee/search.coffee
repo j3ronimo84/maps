@@ -39,7 +39,7 @@ class j3r.Search
 
   getItem: (key) ->
     itemInfo = @markersInfo[key]
-    itemHtml = '<a onclick="app.showInfoWindow(\'' + key + '\')"><div class="' + j3r.conf['settings']['el_searchResultItem'] + '"><strong>
+    itemHtml = '<a onclick="app.jumpToMarker(\'' + key + '\')"><div class="' + j3r.conf['settings']['el_searchResultItem'] + '"><strong>
       ' + itemInfo['title'] + '</strong> (' + j3r.helpers.getCategoryInfo( key, 1) + ')</div></a>'       
     
 
