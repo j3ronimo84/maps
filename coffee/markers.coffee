@@ -9,7 +9,10 @@ class j3r.Markers
     for markerId, markerShow of newMarkers
       @addMarker markerId, @markersInfo[markerId] if !@actualMarkers[markerId]? or !@actualMarkers[markerId]
     return  
-        
+   
+  getInfoWindows: =>
+    @infoWindows      
+
   addMarker: (markerId, markerInfo) ->
     @markersObjects[markerId] = @getMarker markerId, markerInfo if !@markersObjects[markerId]?
     @markersObjects[markerId].setMap @map
@@ -45,7 +48,7 @@ class j3r.Markers
           return
         ,
           500
-    return
+    return  
 
   addMarkerByPos: (pos) ->
     console.log pos

@@ -28,13 +28,15 @@
 }
 
 #search-wrapper {
+	position: relative;
 	width: 200px;
 	float: right;
 	margin: 3px;
 }
 
 #search-input {
-	width: 198px;
+	position: absolute;
+	width: 188px;
 	float: right;
   height: 24px;
   padding-left: 10px;
@@ -65,10 +67,9 @@
 
 #search-results {
 	display: none;
-	/* "hack" because of input padding*/
-	width: 208px;
-	margin-left: -10px;
 	position: relative;
+	/* "hack" because of input padding*/
+	width: 198px;
 	z-index: 1000;
 	top: 25px;
 	right: 0px;

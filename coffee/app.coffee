@@ -21,6 +21,19 @@ class j3r.App
       searchInput.keyup =>
         @search.search searchInput.val()
         return
+      
+      selectorsWrapper = $('#selectors-wrapper');
+      position = j3r.conf['settings']['mapStartPos']
+      mapCenter = new google.maps.LatLng position[0], position[1]
+      map = @map.getMap()
+      selectorsWrapper.click =>
+        if map.getCenter() != mapCenter
+          map.setCenter mapCenter
+          @markers.getInfoWindows().hideAllMarkersInfoWindows()
+        if @map['zoom'] != j3r.conf['settings']['mapZoom']
+          map.setZoom j3r.conf['settings']['mapZoom']
+          @markers.getInfoWindows().hideAllMarkersInfoWindows()
+        return
       return  
     return
 

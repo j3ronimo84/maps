@@ -21,10 +21,24 @@ j3r.App = (function() {
     this.markers.setMarkers(j3r.conf.markers);
     this.markersController.init();
     $(document).ready(function() {
-      var searchInput;
+      var map, mapCenter, position, searchInput, selectorsWrapper;
       searchInput = $(j3r.conf['settings']['el_searchInput']);
       searchInput.keyup(function() {
         _this.search.search(searchInput.val());
+      });
+      selectorsWrapper = $('#selectors-wrapper');
+      position = j3r.conf['settings']['mapStartPos'];
+      mapCenter = new google.maps.LatLng(position[0], position[1]);
+      map = _this.map.getMap();
+      selectorsWrapper.click(function() {
+        if (map.getCenter() !== mapCenter) {
+          map.setCenter(mapCenter);
+          _this.markers.getInfoWindows().hideAllMarkersInfoWindows();
+        }
+        if (_this.map['zoom'] !== j3r.conf['settings']['mapZoom']) {
+          map.setZoom(j3r.conf['settings']['mapZoom']);
+          _this.markers.getInfoWindows().hideAllMarkersInfoWindows();
+        }
       });
     });
   };

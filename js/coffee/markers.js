@@ -9,6 +9,7 @@ j3r.Markers = (function() {
     this.markersObjects = markersObjects != null ? markersObjects : {};
     this.actualMarkers = actualMarkers != null ? actualMarkers : {};
     this.showMarkerInfo = __bind(this.showMarkerInfo, this);
+    this.getInfoWindows = __bind(this.getInfoWindows, this);
   }
 
   Markers.prototype.setMarkers = function(newMarkers) {
@@ -26,6 +27,10 @@ j3r.Markers = (function() {
         this.addMarker(markerId, this.markersInfo[markerId]);
       }
     }
+  };
+
+  Markers.prototype.getInfoWindows = function() {
+    return this.infoWindows;
   };
 
   Markers.prototype.addMarker = function(markerId, markerInfo) {
