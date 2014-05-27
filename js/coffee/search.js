@@ -14,20 +14,27 @@ j3r.Search = (function() {
   }
 
   Search.prototype.search = function(key) {
-    var item, itemKey, keyAct, searchIn, _ref, _ref1;
+    var insert, item, itemKey, keyAct, searchIn, splKey, splKeys, _i, _j, _len, _len1, _ref, _ref1;
     if (key === '' || (key.length === (j3r.Search.startSearchFrom - 1) && this.actualLetters.length === j3r.Search.startSearchFrom)) {
       this.actualLetters = '';
       this.actualList = {};
       this.renderResults();
     } else {
-      key = j3r.helpers.getTransformedText(key, false);
-      if (key < this.actualLetters.length || key.length >= j3r.Search.startSearchFrom) {
+      if (key.length < this.actualLetters.length || key.length >= j3r.Search.startSearchFrom) {
+        splKeys = key.split(' ');
+        if (splKeys[splKeys.length - 1] === '') {
+          splKeys.pop();
+        }
         if (key.length > this.actualLetters.length && !jQuery.isEmptyObject(this.actualList)) {
           _ref = this.actualList;
           for (keyAct in _ref) {
             item = _ref[keyAct];
-            if (this.searchList[keyAct].indexOf(key) === -1) {
-              delete this.actualList[keyAct];
+            for (_i = 0, _len = splKeys.length; _i < _len; _i++) {
+              splKey = splKeys[_i];
+              if (this.searchList[keyAct].indexOf(splKey) === -1) {
+                delete this.actualList[keyAct];
+                break;
+              }
             }
           }
         } else {
@@ -35,7 +42,15 @@ j3r.Search = (function() {
           _ref1 = this.searchList;
           for (itemKey in _ref1) {
             searchIn = _ref1[itemKey];
-            if (searchIn.indexOf(key) !== -1) {
+            insert = true;
+            for (_j = 0, _len1 = splKeys.length; _j < _len1; _j++) {
+              splKey = splKeys[_j];
+              if (searchIn.indexOf(splKey) === -1) {
+                insert = false;
+                break;
+              }
+            }
+            if (insert) {
               this.actualList[itemKey] = this.getItem(itemKey);
             }
           }

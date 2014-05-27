@@ -11,21 +11,33 @@ class j3r.Search
       @actualLetters = ''
       @actualList = {}
       @renderResults()
-    # other situations 
-    else  
-      key = j3r.helpers.getTransformedText key, no
+    # other cases 
+    else
+      # key = j3r.helpers.getTransformedText key, no
       # delete one from selections or adding
-      if key < @actualLetters.length or key.length >= j3r.Search.startSearchFrom
+      if key.length < @actualLetters.length or key.length >= j3r.Search.startSearchFrom
+        # search by more words
+        splKeys = key.split ' '
+        splKeys.pop() if splKeys[splKeys.length-1] is ''
         # continue searching
         if key.length > @actualLetters.length and !jQuery.isEmptyObject @actualList
           for keyAct, item of @actualList
             # delete if not in list
-            delete @actualList[keyAct] if @searchList[keyAct].indexOf(key) is -1
+            for splKey in splKeys
+              if @searchList[keyAct].indexOf(splKey) is -1
+                delete @actualList[keyAct]
+                break
         # start searching 
         else
           @actualList = {}
+          # each item of list
           for itemKey, searchIn of @searchList
-            @actualList[itemKey] = @getItem(itemKey) if searchIn.indexOf(key) isnt -1
+            insert = yes
+            for splKey in splKeys
+              if searchIn.indexOf(splKey) is -1
+                insert = no
+                break
+            @actualList[itemKey] = @getItem(itemKey) if insert
         @actualLetters = key    
         @renderResults()  
     return      
